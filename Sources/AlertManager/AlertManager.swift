@@ -100,7 +100,11 @@ public class AlertManager: NSObject {
         for (index,title) in buttonTitles.enumerated() {
             
             self.thisAlert!.addAction(UIAlertAction(title: title, style: aStyle[index], handler: { action in DispatchQueue.main.async(execute: { () -> Void in callBack(index,self.thisAlert!.textFields!.first!.text!) } ) } ) )
-            if disabledButtons!.contains(index) { self.thisAlert!.actions[index].isEnabled = false }
+         
+            if disabledButtons != nil {
+                
+                if disabledButtons!.contains(index) { self.thisAlert!.actions[index].isEnabled = false }
+            }
         }
         
         self.thisAlert!.addTextField(configurationHandler: { (theTextField) in
