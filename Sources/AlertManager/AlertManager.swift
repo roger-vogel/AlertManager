@@ -88,7 +88,7 @@ public class AlertManager: NSObject {
     }
     
     // MARK: - POPUP WITH TEXTFIELD
-    public func popupWithTextField (aTitle: String? = "", aMessage: String, aPlaceholder: String, aDefault: String, buttonTitles: [String], disabledButtons: [Int]? = nil, aStyle: [UIAlertAction.Style], callBack: @escaping (Int,String) -> Void ) {
+    public func popupWithTextField (aTitle: String? = "", aMessage: String, aPlaceholder: String, aDefault: String, buttonTitles: [String], disabledButtons: [Int]? = nil, aStyle: [UIAlertAction.Style], keyboard: UIKeyboardType? = .default, callBack: @escaping (Int,String) -> Void ) {
         
         if thisAlert != nil { dismiss() }
         
@@ -113,6 +113,7 @@ public class AlertManager: NSObject {
             theTextField.font = UIFont.systemFont(ofSize: 16)
             theTextField.text = self.alertTextFieldParams!.defaultText
             theTextField.autocapitalizationType = .words
+            theTextField.keyboardType = keyboard!
             theTextField.delegate = self
         })
         
