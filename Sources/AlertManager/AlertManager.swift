@@ -45,6 +45,7 @@ public class AlertManager: NSObject {
         let messageAttrString = NSMutableAttributedString(string: aMessage + "\n\n", attributes: messageFont)
         
         thisAlert = UIAlertController(title: aTitle!, message: "", preferredStyle: .alert)
+        thisAlert!.modalPresentationStyle = .popover
         thisAlert!.setValue(messageAttrString, forKey:"attributedMessage")
        
         self.setupPendingIndicator()
@@ -59,6 +60,7 @@ public class AlertManager: NSObject {
         let messageAttrString = NSMutableAttributedString(string: aMessage + "\n\n", attributes: messageFont)
         
         thisAlert = UIAlertController(title: aTitle!, message: "", preferredStyle: .alert)
+        thisAlert!.modalPresentationStyle = .popover
         thisAlert!.setValue(messageAttrString, forKey:"attributedMessage")
        
         self.setupPendingIndicator()
@@ -95,6 +97,7 @@ public class AlertManager: NSObject {
         textAlertButtonsToDisable = disabledButtons
         
         thisAlert = UIAlertController(title: aTitle!, message: aMessage, preferredStyle: .alert)
+        thisAlert!.modalPresentationStyle = .popover
         alertTextFieldParams = (aPlaceholder,aDefault)
         
         for (index,title) in buttonTitles.enumerated() {
@@ -135,6 +138,7 @@ public class AlertManager: NSObject {
         if aMessage!.isEmpty { theMessage = nil } else { theMessage = aMessage! }
         
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
+        thisAlert!.modalPresentationStyle = .popover
         thisAlert!.addAction(UIAlertAction(title: buttonTitle, style: theStyle, handler: { action in return } ) )
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
@@ -154,6 +158,7 @@ public class AlertManager: NSObject {
         if aMessage!.isEmpty { theMessage = nil } else { theMessage = aMessage! }
         
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
+        thisAlert!.modalPresentationStyle = .popover
         thisAlert!.addAction(UIAlertAction(title: buttonTitle, style: theStyle, handler: { action in DispatchQueue.main.async(execute: { () -> Void in callBack() } ) } ) )
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
@@ -173,6 +178,7 @@ public class AlertManager: NSObject {
         if aMessage!.isEmpty { theMessage = nil } else { theMessage = aMessage! }
         
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
+        thisAlert!.modalPresentationStyle = .popover
         
         for (index,title) in buttonTitles.enumerated() {
             
