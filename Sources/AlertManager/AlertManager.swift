@@ -5,16 +5,18 @@ public class AlertManager: NSObject {
     
     // MARK: - PROPERTIES
     private var activeController: UIViewController?
+    private var activeView: UIView?
     private var indicator: UIActivityIndicatorView?
    
     public var thisAlert: UIAlertController?
     public var alertTextFieldParams: (placeholder: String, defaultText: String)?
     public var textAlertButtonsToDisable: [Int]?
     
-    public init(controller: UIViewController) {
+    public init(controller: UIViewController, view: UIView? = nil) {
         
         super.init()
         activeController = controller
+        activeView = view
     }
     
     // MARK: - POPUP OK
@@ -138,6 +140,8 @@ public class AlertManager: NSObject {
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
         thisAlert!.addAction(UIAlertAction(title: buttonTitle, style: theStyle, handler: { action in return } ) )
         
+        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
             self.activeController!.present(self.thisAlert!, animated: true, completion: nil)
@@ -157,6 +161,8 @@ public class AlertManager: NSObject {
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
         thisAlert!.addAction(UIAlertAction(title: buttonTitle, style: theStyle, handler: { action in DispatchQueue.main.async(execute: { () -> Void in callBack() } ) } ) )
         
+        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
             self.activeController!.present(self.thisAlert!, animated: true, completion: nil)
@@ -174,6 +180,7 @@ public class AlertManager: NSObject {
         if aMessage!.isEmpty { theMessage = nil } else { theMessage = aMessage! }
         
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
+        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
         
         for (index,title) in buttonTitles.enumerated() {
             
@@ -191,6 +198,8 @@ public class AlertManager: NSObject {
         
         if thisAlert != nil { dismiss() }
         thisAlert = UIAlertController(title: aTitle!, message: aMessage, preferredStyle: .actionSheet)
+        
+        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
@@ -201,7 +210,9 @@ public class AlertManager: NSObject {
     public func popupMessage (aTitle: String? = "", aMessage: String, aViewDelay: TimeInterval? = 2.0, callBack: @escaping () -> Void ) {
         
         if thisAlert != nil { dismiss() }
+        
         thisAlert = UIAlertController(title: aTitle!, message: aMessage, preferredStyle: .actionSheet)
+        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
