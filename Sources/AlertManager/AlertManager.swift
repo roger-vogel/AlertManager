@@ -233,7 +233,9 @@ public class AlertManager: NSObject {
     public func dismissWithDelay(wait: TimeInterval? = 2.0) { DispatchQueue.main.asyncAfter(deadline: .now() + wait!, execute: { self.dismiss() }) }
   
     public func dismissWithDelay(wait: TimeInterval? = 2.0, aCallBack: @escaping () -> Void ) { DispatchQueue.main.asyncAfter(deadline: .now() + wait!, execute: { aCallBack(); self.dismiss() }) }
-        
+    
+    public func addDelegate(view: UIView) { activeView = view }
+   
     // MARK: - INTERNAL USE ONLY
     private func setupPendingIndicator() {
      
