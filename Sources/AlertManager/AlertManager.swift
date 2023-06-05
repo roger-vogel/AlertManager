@@ -5,18 +5,17 @@ public class AlertManager: NSObject {
     
     // MARK: - PROPERTIES
     private var activeController: UIViewController?
-    private var activeView: UIView?
+    private var delegate: Any?
     private var indicator: UIActivityIndicatorView?
    
     public var thisAlert: UIAlertController?
     public var alertTextFieldParams: (placeholder: String, defaultText: String)?
     public var textAlertButtonsToDisable: [Int]?
     
-    public init(controller: UIViewController, view: UIView? = nil) {
+    public init(controller: UIViewController) {
         
         super.init()
         activeController = controller
-        activeView = view
     }
     
     // MARK: - POPUP OK
@@ -140,7 +139,7 @@ public class AlertManager: NSObject {
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
         thisAlert!.addAction(UIAlertAction(title: buttonTitle, style: theStyle, handler: { action in return } ) )
         
-        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
+        if delegate != nil { thisAlert!.popoverPresentationController?.delegate = (delegate as! UIPopoverPresentationControllerDelegate) }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
@@ -161,7 +160,7 @@ public class AlertManager: NSObject {
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
         thisAlert!.addAction(UIAlertAction(title: buttonTitle, style: theStyle, handler: { action in DispatchQueue.main.async(execute: { () -> Void in callBack() } ) } ) )
         
-        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
+        if delegate != nil { thisAlert!.popoverPresentationController?.delegate = (delegate as! UIPopoverPresentationControllerDelegate) }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
@@ -180,7 +179,7 @@ public class AlertManager: NSObject {
         if aMessage!.isEmpty { theMessage = nil } else { theMessage = aMessage! }
         
         thisAlert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: theType!)
-        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
+        if delegate != nil { thisAlert!.popoverPresentationController?.delegate = (delegate as! UIPopoverPresentationControllerDelegate) }
         
         for (index,title) in buttonTitles.enumerated() {
             
@@ -199,7 +198,7 @@ public class AlertManager: NSObject {
         if thisAlert != nil { dismiss() }
         thisAlert = UIAlertController(title: aTitle!, message: aMessage, preferredStyle: .actionSheet)
         
-        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
+        if delegate != nil { thisAlert!.popoverPresentationController?.delegate = (delegate as! UIPopoverPresentationControllerDelegate) }
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
@@ -212,7 +211,7 @@ public class AlertManager: NSObject {
         if thisAlert != nil { dismiss() }
         
         thisAlert = UIAlertController(title: aTitle!, message: aMessage, preferredStyle: .actionSheet)
-        if activeView != nil { thisAlert!.popoverPresentationController?.delegate = (activeView as! UIPopoverPresentationControllerDelegate) }
+        if delegate != nil { thisAlert!.popoverPresentationController?.delegate = (delegate as! UIPopoverPresentationControllerDelegate) }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
             
@@ -234,7 +233,8 @@ public class AlertManager: NSObject {
   
     public func dismissWithDelay(wait: TimeInterval? = 2.0, aCallBack: @escaping () -> Void ) { DispatchQueue.main.asyncAfter(deadline: .now() + wait!, execute: { aCallBack(); self.dismiss() }) }
     
-    public func addDelegate(view: UIView) { activeView = view }
+    // MARK: - POPOVER DELEGATE
+    public func addDelegate(object: Any) { delegate = object }
    
     // MARK: - INTERNAL USE ONLY
     private func setupPendingIndicator() {
