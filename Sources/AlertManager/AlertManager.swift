@@ -234,8 +234,8 @@ public class AlertManager: NSObject {
     public func dismissWithDelay(wait: TimeInterval? = 2.0, aCallBack: @escaping () -> Void ) { DispatchQueue.main.asyncAfter(deadline: .now() + wait!, execute: { aCallBack(); self.dismiss() }) }
     
     // MARK: - POPOVER DELEGATE
-    public func addDelegate(view: UIView) { delegate = view }
-   
+    public func addDelegate(delegate: Any) { self.delegate = delegate }
+ 
     // MARK: - INTERNAL USE ONLY
     private func setupPendingIndicator() {
      
