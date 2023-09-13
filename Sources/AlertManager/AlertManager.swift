@@ -3,14 +3,7 @@
 // Created by Roger Vogel
 
 import Foundation
-
-#if os(iOS)
-    import UIKit
-#endif
-
-#if os(macOS)
-    import AppKit
-#endif
+import UIKit
 
 public class AlertManager: NSObject {
     
