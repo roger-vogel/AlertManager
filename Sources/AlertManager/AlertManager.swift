@@ -2,7 +2,15 @@
 // UIAlertController Wrapper
 // Created by Roger Vogel
 
-import UIKit
+import Foundation
+
+#if os(iOS)
+    import UIKit
+#endif
+
+#if os(macOS)
+    import AppKit
+#endif
 
 public class AlertManager: NSObject {
     
